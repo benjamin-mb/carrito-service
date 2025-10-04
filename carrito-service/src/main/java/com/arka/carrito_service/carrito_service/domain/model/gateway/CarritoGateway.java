@@ -9,7 +9,7 @@ public interface CarritoGateway {
     Mono<Carrito> save(Carrito carrito);
     Mono<Carrito>findById(Integer idCarrito);
     Mono<Carrito>findCarritoActivoByIdUsuario(Integer idUsuario);
-    Mono<Carrito>deleteByid(Integer idCarrito);
+    Mono<Carrito>deleteById(Integer idCarrito);
     Mono<Boolean>findCarritoActivo(Integer idUsuario);
     Flux<Carrito>findAllByIdUsuario(Integer idUsuario);
 

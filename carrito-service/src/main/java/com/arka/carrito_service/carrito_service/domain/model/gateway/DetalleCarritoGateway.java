@@ -8,6 +8,7 @@ public interface DetalleCarritoGateway {
 
     Mono<DetalleCarrito>save(DetalleCarrito detalleCarrito);
     Mono<DetalleCarrito>findById(Integer idDetalleCarrito);
+    Mono<DetalleCarrito>findByIdCarritoAndIdProducto(Integer idCarrito, Integer idProdcuto);
     Mono<DetalleCarrito>findByIdCarritoAndIdDetalleCarrito(Integer idCarrito, Integer idDetalleCarrito);
     Mono<Void>deleteById(Integer idDetalleCarrito);
     Mono<Void>deleteAllByIdCarrito(Integer idCarrito);
