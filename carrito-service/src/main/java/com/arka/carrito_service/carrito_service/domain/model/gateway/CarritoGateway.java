@@ -11,6 +11,6 @@ public interface CarritoGateway {
     Mono<Carrito>findCarritoActivoByIdUsuario(Integer idUsuario);
     Mono<Carrito>deleteById(Integer idCarrito);
     Mono<Boolean>findCarritoActivo(Integer idUsuario);
-    Flux<Carrito>findAllByIdUsuario(Integer idUsuario);
+
 
 }

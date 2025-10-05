@@ -1,6 +1,6 @@
 package com.arka.carrito_service.carrito_service.domain.model;
 
-import io.r2dbc.spi.Parameter;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

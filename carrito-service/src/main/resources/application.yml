@@ -1,3 +1,20 @@
+server:
+  port: 8084
+
 spring:
   application:
     name: carrito-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/sistema_almacen?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: Developer123.
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
