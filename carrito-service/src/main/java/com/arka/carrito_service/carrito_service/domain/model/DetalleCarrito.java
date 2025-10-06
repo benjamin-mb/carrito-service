@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class DetalleCarrito {
 
+
     private Integer idDdetalleCarrito;
     private Integer idCarrito;
     private Integer idProducto;

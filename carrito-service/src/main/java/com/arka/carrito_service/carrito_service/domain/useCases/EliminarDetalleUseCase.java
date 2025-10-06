@@ -19,11 +19,11 @@ public class EliminarDetalleUseCase {
     public Mono<Carrito>deleteDetalle(Integer idDetalleCarrito){
         return detalleCarritoGateway.findById(idDetalleCarrito)
                 .switchIfEmpty(Mono.error(new DetalleCarritoNoEncontradoException(
-                        "Detalle de carrito no encontrado: " + idDetalleCarrito
+                        "Car detail not found: " + idDetalleCarrito
                 )))
                 .flatMap(detalle ->
                         detalleCarritoGateway.deleteById(idDetalleCarrito)
-                                .thenReturn(detalle.getIdCarrito()) // Retornar el idCarrito para buscar después
+                                .thenReturn(detalle.getIdCarrito())
                 )
                 .flatMap(idCarrito -> carritoGateway.findById(idCarrito));
 

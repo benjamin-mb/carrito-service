@@ -21,7 +21,7 @@ public class FinalizarCarritoUseCase {
 
         return carritoGateway.findCarritoActivoByIdUsuario(idUsuario)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException(
-                        "No hay carrito activo para el usuario"
+                        "No car active for the user"
                 )))
                 .flatMap(this::validarYFinalizar);
 

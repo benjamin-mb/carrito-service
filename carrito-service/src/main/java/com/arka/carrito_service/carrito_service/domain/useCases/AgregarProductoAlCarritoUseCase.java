@@ -53,7 +53,7 @@ public class AgregarProductoAlCarritoUseCase {
                 .flatMap(existe -> {
                     if (Boolean.FALSE.equals(existe)) {
                         return Mono.error(new UsuarioNoEncontradoException(
-                                "El usuario no existe: " + id_usuario
+                                "User does not exist: " + id_usuario
                         ));
                     }
 
@@ -78,7 +78,7 @@ public class AgregarProductoAlCarritoUseCase {
                     Integer stock=productoAObtener.getStock();
                     if (stock < cantidad) {
                         throw new StockInsuficienteException(
-                                String.format("Stock insuficiente para producto %d. Disponible: %d, Solicitado: %d",
+                                String.format("Insufficient Stock",
                                         productoAObtener.getId(), stock, cantidad)
                         );
                     }
