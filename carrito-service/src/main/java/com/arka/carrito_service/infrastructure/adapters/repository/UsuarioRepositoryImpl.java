@@ -1,20 +1,29 @@
 package com.arka.carrito_service.infrastructure.adapters.repository;
 
+import com.arka.carrito_service.domain.model.Usuario;
 import com.arka.carrito_service.domain.model.gateway.UsuarioGateway;
-import com.arka.carrito_service.infrastructure.adapters.entity.UsuarioEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
+import com.arka.carrito_service.infrastructure.adapters.mapper.UsuarioMapper;
 
 import java.util.Optional;
-@Component
+
 public class UsuarioRepositoryImpl implements UsuarioGateway {
-    @Override
-    public Boolean existsById(Integer id) {
-        return null;
+
+    private final UsuarioJpaRepository usuarioJpaRepository;
+    private final UsuarioMapper usuarioMapper;
+
+    public UsuarioRepositoryImpl(UsuarioJpaRepository usuarioJpaRepository, UsuarioMapper usuarioMapper) {
+        this.usuarioJpaRepository = usuarioJpaRepository;
+        this.usuarioMapper = usuarioMapper;
     }
 
     @Override
-    public Optional<UsuarioEntity> findById(Integer id) {
-        return Optional.empty();
+    public Optional<Usuario> findById(Integer id) {
+        return usuarioJpaRepository.findById(id)
+                .map(usuarioMapper::toDomain);
+    }
+
+    @Override
+    public Boolean existsById(Integer id) {
+        return usuarioJpaRepository.existsById(id);
     }
 }

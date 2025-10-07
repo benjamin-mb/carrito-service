@@ -28,18 +28,10 @@ public class UsuarioEntity {
     @Column(columnDefinition = "ENUM('cliente','administrador')", nullable = true)
     private UserTypeEntity tipo;
 
-
-    public UsuarioEntity(String nombre, String email, String password) {
+    public UsuarioEntity(Integer id, String nombre, String email) {
+        this.id = id;
         this.nombre = nombre;
         this.email = email;
-        this.password = password;
-        this.tipo= UserTypeEntity.cliente;
-    }
-
-    public UsuarioEntity(String nombre, String email, String password, UserTypeEntity tipo) {
-        this.nombre = nombre;
-        this.email = email;
-        this.password = password;
-        this.tipo = tipo;
+        this.tipo=UserTypeEntity.cliente;
     }
 }

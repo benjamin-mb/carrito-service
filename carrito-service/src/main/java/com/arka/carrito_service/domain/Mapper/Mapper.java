@@ -1,14 +1,9 @@
 package com.arka.carrito_service.domain.Mapper;
-
 import com.arka.carrito_service.domain.Dto.DtoCarrito;
 import com.arka.carrito_service.domain.model.Carrito;
 import com.arka.carrito_service.domain.model.DetalleCarrito;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 public class Mapper {
 

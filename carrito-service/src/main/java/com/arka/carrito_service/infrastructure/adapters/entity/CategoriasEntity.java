@@ -26,13 +26,9 @@ public class CategoriasEntity {
     @Column(length = 50)
     private String tipo;
 
-    @OneToMany(mappedBy = "categoria",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<ProductosEntity> productos;
-
     public CategoriasEntity(String nombre, String caracteristicas, String tipo) {
         this.nombre = nombre;
         this.caracteristicas = caracteristicas;
         this.tipo = tipo;
-        this.productos=new ArrayList<>();
     }
 }

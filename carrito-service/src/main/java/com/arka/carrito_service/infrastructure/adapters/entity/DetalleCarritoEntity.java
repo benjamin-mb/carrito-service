@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 public class DetalleCarritoEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_detalle_carrito")
-    private Integer idDetalleCarrito;
-
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_carrito", nullable = false)
@@ -29,8 +29,6 @@ public class DetalleCarritoEntity {
     private Integer precioUnitario;
 
     private Integer subtotal;
-
-
 
     public Integer calcularSubtotal(){
         return this.cantidad*this.precioUnitario;

@@ -6,9 +6,9 @@ import reactor.core.publisher.Mono;
 public interface CarritoGateway {
 
     Mono<Carrito> save(Carrito carrito);
-    Mono<Carrito>findById(Integer idCarrito);
+    Mono<Carrito> findById(Integer idCarrito);
     Mono<Carrito>findCarritoActivoByIdUsuario(Integer idUsuario);
-    Mono<Carrito>deleteById(Integer idCarrito);
+    Mono<Void> deleteById(Integer idCarrito);
     Mono<Boolean>findCarritoActivo(Integer idUsuario);
 
 

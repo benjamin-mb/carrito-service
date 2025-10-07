@@ -3,13 +3,18 @@ package com.arka.carrito_service.infrastructure.adapters.repository;
 import com.arka.carrito_service.domain.model.Carrito;
 import com.arka.carrito_service.domain.model.gateway.CarritoGateway;
 import com.arka.carrito_service.infrastructure.adapters.entity.CarritoEntity;
+import com.arka.carrito_service.infrastructure.adapters.entity.EstadoEntity;
+import com.arka.carrito_service.infrastructure.adapters.exceptions.CarritoInactivoOFinalizadoException;
+import com.arka.carrito_service.infrastructure.adapters.exceptions.CarritoNoEncontradoException;
 import com.arka.carrito_service.infrastructure.adapters.mapper.CarritoMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-@Component
+import java.util.Optional;
+
+@Repository
 public class CarritoRepositoryImpl implements CarritoGateway {
 
     private final CarritoJpaRepository carritoJpaRepository;
@@ -30,23 +35,42 @@ public class CarritoRepositoryImpl implements CarritoGateway {
                 .subscribeOn(Schedulers.boundedElastic());
     }
 
+
     @Override
     public Mono<Carrito> findById(Integer idCarrito) {
-        return null;
+        return Mono.fromCallable(()->
+            carritoJpaRepository.findById(idCarrito)
+                    .map(carritoMapper::toDomain)
+                    .orElse(null)
+        ).subscribeOn(Schedulers.boundedElastic())
+                .onErrorMap(e->new CarritoNoEncontradoException("car not found"));
+
     }
 
     @Override
     public Mono<Carrito> findCarritoActivoByIdUsuario(Integer idUsuario) {
-        return null;
+        return Mono.fromCallable(()->
+        carritoJpaRepository.findByIdUsuarioAndEstado(idUsuario, EstadoEntity.abierto)
+                .map(carritoMapper::toDomain)
+                .orElse(null)
+                ).subscribeOn(Schedulers.boundedElastic())
+                .onErrorMap(e->new CarritoNoEncontradoException("car not found for user or car not active for user"));
     }
 
     @Override
-    public Mono<Carrito> deleteById(Integer idCarrito) {
-        return null;
+    public Mono<Void> deleteById(Integer idCarrito) {
+        return Mono.fromRunnable(()->
+                carritoJpaRepository.deleteById(idCarrito))
+                .subscribeOn(Schedulers.boundedElastic())
+                .then();
     }
 
     @Override
     public Mono<Boolean> findCarritoActivo(Integer idUsuario) {
-        return null;
+        return Mono.fromCallable(()->
+                carritoJpaRepository.existsByIdUsuarioAndEstado(idUsuario,EstadoEntity.abierto)
+        ).subscribeOn(Schedulers.boundedElastic())
+                .onErrorMap(e->new CarritoInactivoOFinalizadoException("Car innactive or finished"));
     }
+
 }

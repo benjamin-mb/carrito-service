@@ -11,14 +11,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DetalleCarrito {
 
-
     private Integer idDdetalleCarrito;
     private Integer idCarrito;
     private Integer idProducto;
     private Integer cantidad;
     private Integer precioUnitario;
     private Integer subtotal = calcularSubtotal();
-
 
     public DetalleCarrito(Integer idCarrito, Integer idProducto, Integer cantidad, Integer precioUnitario, Integer subtotal) {
         this.idCarrito = idCarrito;

@@ -25,6 +25,6 @@ public class Carrito {
         this.creado = creado;
         this.estado = estado;
         this.expirado = expirado;
-        this.detalles = new ArrayList<>();
+        this.detalles = detalles != null ? detalles:new ArrayList<>();
     }
 }

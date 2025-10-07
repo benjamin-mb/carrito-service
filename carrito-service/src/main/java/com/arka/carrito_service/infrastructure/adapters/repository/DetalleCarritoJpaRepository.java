@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface DetalleCarritoJpaRepository extends JpaRepository<DetalleCarritoEntity,Integer> {
     // Buscar todos los detalles por ID de carrito
     List<DetalleCarritoEntity> findByCarrito_IdCarrito(Integer idCarrito);

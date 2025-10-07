@@ -2,20 +2,33 @@ package com.arka.carrito_service.infrastructure.adapters.repository;
 
 import com.arka.carrito_service.domain.model.Producto;
 import com.arka.carrito_service.domain.model.gateway.ProductoGateway;
-import org.springframework.stereotype.Component;
+import com.arka.carrito_service.infrastructure.adapters.mapper.ProductoMapper;
+import jakarta.ws.rs.ext.ParamConverter;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Component
+@Repository
 public class ProductoRepositoryImpl implements ProductoGateway {
+
+    private final ProductoMapper productoMapper;
+    private final ProductoJpaRepository productoJpaRepository;
+
+    public ProductoRepositoryImpl(@Lazy ProductoMapper productoMapper, ProductoJpaRepository productoJpaRepository) {
+        this.productoMapper = productoMapper;
+        this.productoJpaRepository = productoJpaRepository;
+    }
+
     @Override
     public Boolean existsById(Integer id) {
-        return null;
+        return productoJpaRepository.existsById(id);
     }
 
     @Override
     public Optional<Producto> findById(Integer id) {
-        return Optional.empty();
+
+        return productoJpaRepository.findById(id)
+                .map(productoMapper::toModel);
     }
 }

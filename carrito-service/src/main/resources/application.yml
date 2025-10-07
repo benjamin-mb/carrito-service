@@ -1,7 +1,18 @@
 server:
   port: 8084
 
+logging:
+  level:
+    org:
+      springframework:
+        beans:
+          factory:
+            support: DEBUG
+        context: DEBUG
+
 spring:
+  main:
+    allow-circular-references: false
   application:
     name: carrito-service
 

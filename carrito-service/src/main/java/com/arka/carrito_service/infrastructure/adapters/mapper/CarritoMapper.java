@@ -3,12 +3,12 @@ package com.arka.carrito_service.infrastructure.adapters.mapper;
 import com.arka.carrito_service.domain.model.Carrito;
 import com.arka.carrito_service.domain.model.Estado;
 import com.arka.carrito_service.infrastructure.adapters.entity.CarritoEntity;
+import com.arka.carrito_service.infrastructure.adapters.entity.DetalleCarritoEntity;
 import com.arka.carrito_service.infrastructure.adapters.entity.EstadoEntity;
-import com.arka.carrito_service.infrastructure.adapters.entity.UsuarioEntity;
-import com.arka.carrito_service.infrastructure.adapters.repository.UsuarioRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -25,7 +25,7 @@ public class CarritoMapper {
 
         return new Carrito(
                 entity.getIdCarrito(),
-                entity.getIdUsuario(), // ← Directo, sin buscar en BD
+                entity.getIdUsuario(),
                 entity.getCreado(),
                 mapEstadoToDomain(entity.getEstado()),
                 entity.getExpirado(),
@@ -39,20 +39,20 @@ public class CarritoMapper {
 
     public CarritoEntity toEntity(Carrito carrito) {
         if (carrito == null) return null;
-
         CarritoEntity entity = new CarritoEntity(
                 carrito.getIdUsuario(),
                 carrito.getCreado(),
                 mapEstadoToEntity(carrito.getEstado()),
                 carrito.getExpirado(),
-                carrito.getDetalles()!= null
-                        ? carrito.getDetalles().stream()
-                        .map(detalleMapper::toEntity)
-                        .collect(Collectors.toList())
-                        : new ArrayList<>()
+                new ArrayList<>()
         );
         entity.setIdCarrito(carrito.getIdCarrito());
-
+        List<DetalleCarritoEntity> detalles = carrito.getDetalles() != null
+                ? carrito.getDetalles().stream()
+                .map(detalle -> detalleMapper.toEntity(detalle, entity))
+                .collect(Collectors.toList())
+                : new ArrayList<>();
+        entity.setDetalles(detalles);
         return entity;
     }
 
