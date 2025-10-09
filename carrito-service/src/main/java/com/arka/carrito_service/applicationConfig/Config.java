@@ -1,10 +1,7 @@
 package com.arka.carrito_service.applicationConfig;
 
 import com.arka.carrito_service.domain.Mapper.Mapper;
-import com.arka.carrito_service.domain.model.gateway.CarritoGateway;
-import com.arka.carrito_service.domain.model.gateway.DetalleCarritoGateway;
-import com.arka.carrito_service.domain.model.gateway.ProductoGateway;
-import com.arka.carrito_service.domain.model.gateway.UsuarioGateway;
+import com.arka.carrito_service.domain.model.gateway.*;
 import com.arka.carrito_service.domain.useCases.*;
 import com.arka.carrito_service.infrastructure.adapters.mapper.CarritoMapper;
 import com.arka.carrito_service.infrastructure.adapters.mapper.DetalleMapper;
@@ -68,8 +65,8 @@ public class Config {
         }
 
         @Bean
-        public FinalizarCarritoUseCase finalizarCarritoUseCase(CarritoGateway carritoGateway) {
-                return new FinalizarCarritoUseCase(carritoGateway);
+        public FinalizarCarritoUseCase finalizarCarritoUseCase(CarritoGateway carritoGateway, EventPublisherGateway eventPublisherGateway) {
+                return new FinalizarCarritoUseCase(carritoGateway,eventPublisherGateway);
         }
 
         @Bean

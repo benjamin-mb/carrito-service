@@ -5,6 +5,7 @@ import com.arka.carrito_service.domain.exception.CarritoVacioException;
 import com.arka.carrito_service.domain.model.Carrito;
 import com.arka.carrito_service.domain.model.Estado;
 import com.arka.carrito_service.domain.model.gateway.CarritoGateway;
+import com.arka.carrito_service.domain.model.gateway.EventPublisherGateway;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -12,9 +13,11 @@ import java.time.LocalDateTime;
 public class FinalizarCarritoUseCase {
 
     private final CarritoGateway carritoGateway;
+    private final EventPublisherGateway eventPublisherGateway;
 
-    public FinalizarCarritoUseCase(CarritoGateway carritoGateway) {
+    public FinalizarCarritoUseCase(CarritoGateway carritoGateway, EventPublisherGateway eventPublisherGateway) {
         this.carritoGateway = carritoGateway;
+        this.eventPublisherGateway = eventPublisherGateway;
     }
 
     public Mono<?> execute(Integer idUsuario) {
@@ -39,6 +42,10 @@ public class FinalizarCarritoUseCase {
            return Mono.just(new CarritoVacioException("Car is empty"));
         }
         carrito.setEstado(Estado.finalizado);
-        return carritoGateway.save(carrito);
+        return carritoGateway.save(carrito)
+                .doOnSuccess(carritoFinalizado->{
+                   eventPublisherGateway.publishOrderConfirmed(carritoFinalizado);
+                   eventPublisherGateway.publishReduceStock(carritoFinalizado);
+                });
     }
 }

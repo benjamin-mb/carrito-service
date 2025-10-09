@@ -18,6 +18,12 @@ public class RabbitMQConfig {
     public static final String ORDERS_CONFIRMED_EXCHANGE= "confirmed.exchange";
     public static  final String ORDERS_CONFIRMED_ROUTING_KEY="order.confirmed";
 
+    /// RETRY FOR ERRORS
+    private static final int MAX_RETRY_ATTEMPTS = 3;
+    private static final long RETRY_INITIAL_INTERVAL = 2000L;
+    private static final long RETRY_MAX_INTERVAL = 10000L;
+    private static final double RETRY_MULTIPLIER = 2.0;
+
     @Bean
     public TopicExchange ordersExchange(){
         return new TopicExchange(ORDERS_EXCHANGE);
@@ -34,9 +40,30 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public org.springframework.retry.support.RetryTemplate retryTemplate() {
+        org.springframework.retry.support.RetryTemplate retryTemplate =
+                new org.springframework.retry.support.RetryTemplate();
+        org.springframework.retry.backoff.ExponentialBackOffPolicy backOffPolicy =
+                new org.springframework.retry.backoff.ExponentialBackOffPolicy();
+        backOffPolicy.setInitialInterval(RETRY_INITIAL_INTERVAL);
+        backOffPolicy.setMaxInterval(RETRY_MAX_INTERVAL);
+        backOffPolicy.setMultiplier(RETRY_MULTIPLIER);
+        retryTemplate.setBackOffPolicy(backOffPolicy);
+
+        org.springframework.retry.policy.SimpleRetryPolicy retryPolicy =
+                new org.springframework.retry.policy.SimpleRetryPolicy();
+        retryPolicy.setMaxAttempts(MAX_RETRY_ATTEMPTS);
+        retryTemplate.setRetryPolicy(retryPolicy);
+
+        return retryTemplate;
+    }
+
+    @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setMessageConverter(messageConverter());
+        template.setRetryTemplate(retryTemplate());
         return template;
     }
+
 }
