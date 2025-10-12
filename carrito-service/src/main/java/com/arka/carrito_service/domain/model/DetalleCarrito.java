@@ -16,14 +16,14 @@ public class DetalleCarrito {
     private Integer idProducto;
     private Integer cantidad;
     private Integer precioUnitario;
-    private Integer subtotal = calcularSubtotal();
+    private Integer subtotal;
 
     public DetalleCarrito(Integer idCarrito, Integer idProducto, Integer cantidad, Integer precioUnitario, Integer subtotal) {
         this.idCarrito = idCarrito;
         this.idProducto = idProducto;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
-        this.subtotal = subtotal;
+        this.subtotal = subtotal != null ? subtotal : calcularSubtotal();
     }
 
     public Integer calcularSubtotal(){

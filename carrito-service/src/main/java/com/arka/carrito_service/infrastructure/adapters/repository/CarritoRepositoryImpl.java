@@ -54,9 +54,8 @@ public class CarritoRepositoryImpl implements CarritoGateway {
         return Mono.fromCallable(()->
         carritoJpaRepository.findByIdUsuarioAndEstado(idUsuario, EstadoEntity.abierto)
                 .map(carritoMapper::toDomain)
-                .orElse(null)
-                ).subscribeOn(Schedulers.boundedElastic())
-                .onErrorMap(e->new CarritoNoEncontradoException("car not found for user or car not active for user"));
+                .orElse(null))
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
     @Override

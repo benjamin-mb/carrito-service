@@ -30,14 +30,6 @@ public class DetalleCarritoEntity {
 
     private Integer subtotal;
 
-    public Integer calcularSubtotal(){
-        return this.cantidad*this.precioUnitario;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-        this.subtotal = calcularSubtotal();
-    }
 
     public DetalleCarritoEntity(CarritoEntity carrito, Integer idProducto, Integer cantidad, Integer precioUnitario, Integer subtotal) {
         this.carrito = carrito;
@@ -45,5 +37,9 @@ public class DetalleCarritoEntity {
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
         this.subtotal = calcularSubtotal();
+    }
+
+    public Integer calcularSubtotal(){
+        return this.cantidad*this.precioUnitario;
     }
 }

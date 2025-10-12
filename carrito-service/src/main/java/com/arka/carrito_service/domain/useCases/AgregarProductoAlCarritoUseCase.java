@@ -31,7 +31,7 @@ public class AgregarProductoAlCarritoUseCase {
         this.detalleCarritoGateway = detalleCarritoGateway;
     }
 
-    public Mono<Carrito> execute(Integer idUsuario, Producto producto, Integer cantidad) {
+    public Mono<Carrito> execute(Integer idUsuario, Integer cantidad, Producto producto) {
 
         return obtenerOCrearCarritoValido(idUsuario)
                 .flatMap(carrito -> agregarOActualizarProducto(carrito, producto, cantidad));

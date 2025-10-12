@@ -37,9 +37,9 @@ public class CarritoController {
     @PostMapping("/agregar")
     public Mono<ResponseEntity<Carrito>> agregarProducto(
             @RequestParam Integer idUsuario,
-            @RequestBody Producto producto,
-            @RequestParam Integer cantidad) {
-        return agregarProductoAlCarritoUseCase.execute(idUsuario, producto, cantidad)
+            @RequestParam Integer cantidad,
+            @RequestBody Producto producto) {
+        return agregarProductoAlCarritoUseCase.execute(idUsuario, cantidad,producto)
                 .map(carrito -> ResponseEntity.status(HttpStatus.CREATED).body(carrito));
     }
 

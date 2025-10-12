@@ -36,7 +36,7 @@ public class CarritoEntity {
     @Column(name = "expirado")
     private LocalDateTime expirado;
 
-    @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<DetalleCarritoEntity> detalles;
 
     public CarritoEntity(Integer idUsuario, LocalDateTime creado, EstadoEntity estado, LocalDateTime expirado, List<DetalleCarritoEntity> detalles) {

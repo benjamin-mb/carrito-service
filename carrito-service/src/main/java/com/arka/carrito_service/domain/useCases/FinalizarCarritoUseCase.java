@@ -6,6 +6,7 @@ import com.arka.carrito_service.domain.model.Carrito;
 import com.arka.carrito_service.domain.model.Estado;
 import com.arka.carrito_service.domain.model.gateway.CarritoGateway;
 import com.arka.carrito_service.domain.model.gateway.EventPublisherGateway;
+import com.arka.carrito_service.infrastructure.adapters.exceptions.CarritoNoEncontradoException;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -23,11 +24,8 @@ public class FinalizarCarritoUseCase {
     public Mono<?> execute(Integer idUsuario) {
 
         return carritoGateway.findCarritoActivoByIdUsuario(idUsuario)
-                .switchIfEmpty(Mono.error(new IllegalArgumentException(
-                        "No car active for the user"
-                )))
+                .switchIfEmpty(Mono.error(new CarritoNoEncontradoException("No car active for the user")))
                 .flatMap(this::validarYFinalizar);
-
     }
 
     private Mono<?> validarYFinalizar(Carrito carrito) {
