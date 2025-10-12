@@ -8,9 +8,12 @@ import com.arka.carrito_service.infrastructure.adapters.mapper.DetalleMapper;
 import com.arka.carrito_service.infrastructure.adapters.mapper.ProductoMapper;
 import com.arka.carrito_service.infrastructure.adapters.mapper.UsuarioMapper;
 import com.arka.carrito_service.infrastructure.adapters.repository.*;
+import com.arka.carrito_service.infrastructure.messages.OrderPublisher;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class Config {
@@ -45,6 +48,16 @@ public class Config {
         }
 
         @Bean
+        public EventPublisherGateway eventPublisherGateway(OrderPublisher orderPublisher) {
+                return new EventPublisherAdapters(orderPublisher);
+        }
+
+        @Bean
+        public NotificacionGateway notificacionGateway(WebClient.Builder webClient, @Value("${notificacion.webhook.url}")String webhook, ProductoGateway productoGateway, UsuarioGateway usuarioGateway){
+                return new NotifacionAdapter(webClient,webhook,productoGateway,usuarioGateway);
+        }
+
+        @Bean
         public ActualizarCantidadDeDetalleCarrito actualizarCantidadDeDetalleCarrito(CarritoGateway carritoGateway,
                                                                                      DetalleCarritoGateway detalleCarritoGateway,
                                                                                      ProductoGateway productoGateway){
@@ -72,5 +85,10 @@ public class Config {
         @Bean
         public ObtenerCarritoUseCase obtenerCarritoUseCase(CarritoGateway carritoGateway, Mapper mapper) {
                 return new ObtenerCarritoUseCase(carritoGateway, mapper);
+        }
+
+        @Bean
+        public NotificarCarritosAbandonadosUseCase notificarCarritosAbandonadosUseCase(CarritoGateway carritoGateway,NotificacionGateway notificacionGateway){
+                return new NotificarCarritosAbandonadosUseCase(carritoGateway,notificacionGateway);
         }
 }

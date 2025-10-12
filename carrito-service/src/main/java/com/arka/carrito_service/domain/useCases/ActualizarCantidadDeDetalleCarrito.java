@@ -5,6 +5,7 @@ import com.arka.carrito_service.domain.exception.ProductNotFoundException;
 import com.arka.carrito_service.domain.exception.StockInsuficienteException;
 import com.arka.carrito_service.domain.model.Carrito;
 import com.arka.carrito_service.domain.model.DetalleCarrito;
+import com.arka.carrito_service.domain.model.Estado;
 import com.arka.carrito_service.domain.model.Producto;
 import com.arka.carrito_service.domain.model.gateway.CarritoGateway;
 import com.arka.carrito_service.domain.model.gateway.DetalleCarritoGateway;
@@ -34,7 +35,16 @@ public class ActualizarCantidadDeDetalleCarrito {
                 .switchIfEmpty(Mono.error(new DetalleCarritoNoEncontradoException(
                         "Car detail not found" + idDetalleCarrito
                 )))
-                .flatMap(detalle -> verificarStockYActualizar(detalle, nuevaCantidad))
+                .flatMap(detalle -> carritoGateway.findById(detalle.getIdCarrito())
+                        .flatMap(carrito -> {
+                            if (carrito.getEstado() == Estado.finalizado) {
+                                return Mono.error(new IllegalStateException(
+                                        "No se puede modificar un carrito con estado: " + carrito.getEstado()
+                                ));
+                            }
+                            return verificarStockYActualizar(detalle, nuevaCantidad);
+                        })
+                )
                 .flatMap(detalle -> carritoGateway.findById(detalle.getIdCarrito()));
     }
 

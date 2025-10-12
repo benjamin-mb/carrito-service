@@ -70,6 +70,10 @@ public class AgregarProductoAlCarritoUseCase {
     }
 
     private Mono<Carrito> agregarOActualizarProducto(Carrito carrito, Producto producto, Integer cantidad) {
+
+        if (carrito.getEstado().equals(Estado.finalizado)){
+            return Mono.error(new IllegalStateException("a car that was already confirmed can´t be changed"));
+        }
         return Mono.fromCallable(() -> {
                     Producto productoAObtener=producto;
                     if (!productoGateway.existsById(productoAObtener.getId())){

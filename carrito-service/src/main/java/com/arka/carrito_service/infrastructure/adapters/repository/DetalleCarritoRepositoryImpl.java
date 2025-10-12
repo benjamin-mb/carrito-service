@@ -13,7 +13,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-@Repository
 public class DetalleCarritoRepositoryImpl implements DetalleCarritoGateway {
 
     private final DetalleCarritoJpaRepository detalleRepository;

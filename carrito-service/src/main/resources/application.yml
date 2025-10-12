@@ -1,15 +1,9 @@
 server:
   port: 8084
 
-logging:
-  level:
-    org:
-      springframework:
-        beans:
-          factory:
-            support: DEBUG
-        context: DEBUG
-
+notificacion:
+  webhook:
+    url: http://localhost:8080/webhook-mock
 spring:
   main:
     allow-circular-references: false
@@ -29,3 +23,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:admin123@localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+    registry-fetch-interval-seconds: 30
+    eureka-server-connect-timeout-seconds: 10

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
+
 public class ProductoRepositoryImpl implements ProductoGateway {
 
     private final ProductoMapper productoMapper;

@@ -1,6 +1,7 @@
 package com.arka.carrito_service.infrastructure.adapters.repository;
 
 import com.arka.carrito_service.domain.model.Carrito;
+import com.arka.carrito_service.domain.model.Estado;
 import com.arka.carrito_service.domain.model.gateway.CarritoGateway;
 import com.arka.carrito_service.infrastructure.adapters.entity.CarritoEntity;
 import com.arka.carrito_service.infrastructure.adapters.entity.EstadoEntity;
@@ -9,12 +10,13 @@ import com.arka.carrito_service.infrastructure.adapters.exceptions.CarritoNoEnco
 import com.arka.carrito_service.infrastructure.adapters.mapper.CarritoMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-@Repository
 public class CarritoRepositoryImpl implements CarritoGateway {
 
     private final CarritoJpaRepository carritoJpaRepository;
@@ -63,6 +65,16 @@ public class CarritoRepositoryImpl implements CarritoGateway {
                 carritoJpaRepository.deleteById(idCarrito))
                 .subscribeOn(Schedulers.boundedElastic())
                 .then();
+    }
+
+    @Override
+    public Flux<Carrito> findCarritosAbandonados(LocalDateTime fecha) {
+        return Mono.fromCallable(()->
+                carritoJpaRepository.findByEstadoAndCreadoBefore(
+                        EstadoEntity.abierto,
+                        fecha)).flatMapMany(Flux::fromIterable)
+                .map(carritoMapper::toDomain)
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
     @Override
