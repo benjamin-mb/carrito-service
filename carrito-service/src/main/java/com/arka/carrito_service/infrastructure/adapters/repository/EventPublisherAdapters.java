@@ -7,8 +7,7 @@ import com.arka.carrito_service.infrastructure.messages.Dto.CrearOrdenEventDto;
 import com.arka.carrito_service.infrastructure.messages.Dto.DetalleOrdenDto;
 import com.arka.carrito_service.infrastructure.messages.Dto.DetalleReduceStockDto;
 import com.arka.carrito_service.infrastructure.messages.Dto.DetallesDto;
-import com.arka.carrito_service.infrastructure.messages.OrderPublisher;
-import org.springframework.stereotype.Component;
+import com.arka.carrito_service.infrastructure.messages.OrdenPublisher;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,10 +15,10 @@ import java.util.stream.Collectors;
 
 public class EventPublisherAdapters implements EventPublisherGateway {
 
-    private  final OrderPublisher orderPublisher;
+    private  final OrdenPublisher ordenPublisher;
 
-    public EventPublisherAdapters(OrderPublisher orderPublisher) {
-        this.orderPublisher = orderPublisher;
+    public EventPublisherAdapters(OrdenPublisher ordenPublisher) {
+        this.ordenPublisher = ordenPublisher;
     }
 
     @Override
@@ -43,7 +42,7 @@ public class EventPublisherAdapters implements EventPublisherGateway {
                 details
         );
 
-        orderPublisher.publishOrderConfirmed(event);
+        ordenPublisher.publishOrderConfirmed(event);
     }
 
     @Override
@@ -57,7 +56,7 @@ public class EventPublisherAdapters implements EventPublisherGateway {
 
         DetallesDto detallesDto= new DetallesDto(items);
 
-        orderPublisher.publishReduceStock(detallesDto);
+        ordenPublisher.publishReduceStock(detallesDto);
 
     }
 }

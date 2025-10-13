@@ -16,6 +16,12 @@ spring:
     password: Developer123.
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: arka
+    password: arka123
+
   jpa:
     hibernate:
       ddl-auto: validate

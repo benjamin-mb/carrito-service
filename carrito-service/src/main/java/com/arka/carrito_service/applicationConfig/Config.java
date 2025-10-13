@@ -8,7 +8,7 @@ import com.arka.carrito_service.infrastructure.adapters.mapper.DetalleMapper;
 import com.arka.carrito_service.infrastructure.adapters.mapper.ProductoMapper;
 import com.arka.carrito_service.infrastructure.adapters.mapper.UsuarioMapper;
 import com.arka.carrito_service.infrastructure.adapters.repository.*;
-import com.arka.carrito_service.infrastructure.messages.OrderPublisher;
+import com.arka.carrito_service.infrastructure.messages.OrdenPublisher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
@@ -48,8 +48,8 @@ public class Config {
         }
 
         @Bean
-        public EventPublisherGateway eventPublisherGateway(OrderPublisher orderPublisher) {
-                return new EventPublisherAdapters(orderPublisher);
+        public EventPublisherGateway eventPublisherGateway(OrdenPublisher ordenPublisher) {
+                return new EventPublisherAdapters(ordenPublisher);
         }
 
         @Bean

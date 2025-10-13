@@ -2,7 +2,6 @@ package com.arka.carrito_service.infrastructure.messages;
 
 import com.arka.carrito_service.infrastructure.config.RabbitMQConfig;
 import com.arka.carrito_service.infrastructure.messages.Dto.CrearOrdenEventDto;
-import com.arka.carrito_service.infrastructure.messages.Dto.DetalleReduceStockDto;
 import com.arka.carrito_service.infrastructure.messages.Dto.DetallesDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +9,12 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrderPublisher {
+public class OrdenPublisher {
 
-    private static final Logger log= LoggerFactory.getLogger(OrderPublisher.class);
+    private static final Logger log= LoggerFactory.getLogger(OrdenPublisher.class);
     private final RabbitTemplate rabbitTemplate;
 
-    public OrderPublisher(RabbitTemplate rabbitTemplate) {
+    public OrdenPublisher(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 

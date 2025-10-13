@@ -8,5 +8,5 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class DetallesDto {
-    private List<DetalleReduceStockDto> detalles;
+    private List<DetalleReduceStockDto> items;
 }
