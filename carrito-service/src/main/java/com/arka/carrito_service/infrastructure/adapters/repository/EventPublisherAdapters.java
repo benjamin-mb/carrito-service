@@ -23,13 +23,6 @@ public class EventPublisherAdapters implements EventPublisherGateway {
 
     @Override
     public void publishOrderConfirmed(Carrito carrito) {
-        List<DetalleOrdenDto>details=carrito.getDetalles().stream()
-                .map(detail->new DetalleOrdenDto(
-                        detail.getIdProducto(),
-                        detail.getCantidad(),
-                        detail.getPrecioUnitario(),
-                        detail.getSubtotal()
-                )).collect(Collectors.toList());
 
         Integer montoTotal=carrito.getDetalles().stream()
                 .mapToInt(DetalleCarrito::getSubtotal)
@@ -39,7 +32,7 @@ public class EventPublisherAdapters implements EventPublisherGateway {
                 carrito.getIdUsuario(),
                 montoTotal,
                 LocalDateTime.now(),
-                details
+               carrito.getIdCarrito()
         );
 
         ordenPublisher.publishOrderConfirmed(event);

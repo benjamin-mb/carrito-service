@@ -4,9 +4,8 @@ server:
 notificacion:
   webhook:
     url: http://localhost:8080/webhook-mock
+
 spring:
-  main:
-    allow-circular-references: false
   application:
     name: carrito-service
 
