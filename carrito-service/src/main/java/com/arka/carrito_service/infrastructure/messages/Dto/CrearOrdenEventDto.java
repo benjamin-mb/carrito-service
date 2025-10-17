@@ -14,4 +14,5 @@ public class CrearOrdenEventDto {
     private Integer montoTotal;
     private LocalDateTime fechaCreacion;
     private Integer idCarrito;
+    private List<DetalleOrdenDto>detalles;
 }

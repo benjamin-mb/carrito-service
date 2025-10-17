@@ -3,10 +3,7 @@ package com.arka.carrito_service.infrastructure.adapters.repository;
 import com.arka.carrito_service.domain.model.Carrito;
 import com.arka.carrito_service.domain.model.DetalleCarrito;
 import com.arka.carrito_service.domain.model.gateway.EventPublisherGateway;
-import com.arka.carrito_service.infrastructure.messages.Dto.CrearOrdenEventDto;
-import com.arka.carrito_service.infrastructure.messages.Dto.DetalleOrdenDto;
-import com.arka.carrito_service.infrastructure.messages.Dto.DetalleReduceStockDto;
-import com.arka.carrito_service.infrastructure.messages.Dto.DetallesDto;
+import com.arka.carrito_service.infrastructure.messages.Dto.*;
 import com.arka.carrito_service.infrastructure.messages.OrdenPublisher;
 
 import java.time.LocalDateTime;
@@ -24,6 +21,13 @@ public class EventPublisherAdapters implements EventPublisherGateway {
     @Override
     public void publishOrderConfirmed(Carrito carrito) {
 
+        List<DetalleOrdenDto>detalles=carrito.getDetalles()
+                .stream().map(detalleCarrito -> new DetalleOrdenDto(
+                            detalleCarrito.getIdProducto(),
+                            detalleCarrito.getCantidad(),
+                            detalleCarrito.getPrecioUnitario(),
+                            detalleCarrito.getSubtotal()
+                    )).collect(Collectors.toList());
         Integer montoTotal=carrito.getDetalles().stream()
                 .mapToInt(DetalleCarrito::getSubtotal)
                 .sum();
@@ -32,7 +36,8 @@ public class EventPublisherAdapters implements EventPublisherGateway {
                 carrito.getIdUsuario(),
                 montoTotal,
                 LocalDateTime.now(),
-               carrito.getIdCarrito()
+               carrito.getIdCarrito(),
+                detalles
         );
 
         ordenPublisher.publishOrderConfirmed(event);
