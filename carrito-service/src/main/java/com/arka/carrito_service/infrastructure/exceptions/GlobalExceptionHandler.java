@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
             UsuarioNoEncontradoException.class
     })
     public Mono<ResponseEntity<ErrorResponseDto>> handleNotFound(RuntimeException ex) {
-        log.error("❌ NOT FOUND: {}", ex.getMessage());
+        log.error("NOT FOUND: ", ex.getMessage());
         return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
@@ -37,13 +37,13 @@ public class GlobalExceptionHandler {
             IllegalStateException.class
     })
     public Mono<ResponseEntity<ErrorResponseDto>> handleBadRequest(RuntimeException ex) {
-        log.error("❌ BAD REQUEST: {}", ex.getMessage());
+        log.error("BAD REQUEST: {}", ex.getMessage());
         return buildErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
     public Mono<ResponseEntity<ErrorResponseDto>> handleGenericException(Exception ex) {
-        log.error("❌ INTERNAL SERVER ERROR: {}", ex.getMessage(), ex);
+        log.error("INTERNAL SERVER ERROR: {}", ex.getMessage(), ex);
         return buildErrorResponse("Internal server error: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

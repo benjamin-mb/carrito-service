@@ -10,7 +10,7 @@ spring:
     name: carrito-service
 
   datasource:
-    url: jdbc:mysql://localhost:3306/sistema_almacen?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/arka?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
     password: Developer123.
     driver-class-name: com.mysql.cj.jdbc.Driver
