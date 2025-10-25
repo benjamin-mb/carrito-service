@@ -5,18 +5,14 @@ import com.arka.carrito_service.domain.model.DetalleCarrito;
 import com.arka.carrito_service.domain.model.gateway.NotificacionGateway;
 import com.arka.carrito_service.domain.model.gateway.ProductoGateway;
 import com.arka.carrito_service.domain.model.gateway.UsuarioGateway;
-import com.arka.carrito_service.infrastructure.messages.Dto.CarritoAbandonadoDto;
-import com.arka.carrito_service.infrastructure.messages.Dto.DetalleWeebhookDto;
+import com.arka.carrito_service.infrastructure.Dto.CarritoAbandonadoDto;
+import com.arka.carrito_service.infrastructure.Dto.DetalleWeebhookDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class NotifacionAdapter implements NotificacionGateway {

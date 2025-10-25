@@ -1,4 +1,4 @@
-package com.arka.carrito_service.infrastructure.messages.Dto;
+package com.arka.carrito_service.infrastructure.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,8 +1,8 @@
 package com.arka.carrito_service.infrastructure.messages;
 
 import com.arka.carrito_service.infrastructure.config.RabbitMQConfig;
-import com.arka.carrito_service.infrastructure.messages.Dto.CrearOrdenEventDto;
-import com.arka.carrito_service.infrastructure.messages.Dto.DetallesDto;
+import com.arka.carrito_service.infrastructure.Dto.CrearOrdenEventDto;
+import com.arka.carrito_service.infrastructure.Dto.DetallesDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

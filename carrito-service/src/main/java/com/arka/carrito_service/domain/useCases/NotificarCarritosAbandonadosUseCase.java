@@ -21,12 +21,18 @@ public class NotificarCarritosAbandonadosUseCase {
         LocalDateTime date=LocalDateTime.now().minusHours(12);
         return carritoGateway.findCarritosAbandonados(date)
                 .flatMap(carrito -> {
-                    return notificacionGateway.sendNotiOfCarritoAbandonado(carrito)
-                            .then(Mono.defer(()->{
-                                carrito.setEstado(Estado.abandonado);
-                                return carritoGateway.save(carrito);
-                            }));
+                    return notificacionGateway.sendNotiOfCarritoAbandonado(carrito);
                 }).then();
     }
+
+    public Mono<Void>changeStateToAbandoned(){
+        LocalDateTime date=LocalDateTime.now();
+        return carritoGateway.findCarritosAbandonados(date)
+                .flatMap(carrito -> {
+                    carrito.setEstado(Estado.abandonado);
+                    return carritoGateway.save(carrito);
+                }).then();
+    }
+
 
 }
