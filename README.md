@@ -625,8 +625,6 @@ El workflow de n8n puede:
 1. **Recibir** el webhook con los datos del carrito
 2. **Formatear** un email personalizado con los productos
 3. **Enviar** el email al usuario usando Gmail/SendGrid/etc.
-4. **Registrar** la notificación en una base de datos
-5. **Enviar** notificación push opcional
 
 ### Implementación Reactiva:
 
@@ -968,14 +966,6 @@ docker run -p 8084:8084 carrito-service
 - `RABBITMQ_USER`
 - `RABBITMQ_PASSWORD`
 - `WEBHOOK_URL`
-
----
-
-## 📞 Soporte
-
-Para preguntas o problemas:
-- **Email:** soporte@arka.com
-- **Documentación API:** http://localhost:8084/swagger-ui.html
 
 ---
 
