@@ -24,8 +24,8 @@ public class SchedulerCarritoAbandonado {
         log.info("⏰ Iniciando verificación de carritos abandonados...");
 
         notificarCarritosAbandonadosUseCase.notifyUsersAboutAbandonedCar()
-                .doOnSuccess(v -> log.info("✅ Verificación completada"))
-                .doOnError(e -> log.error("❌ Error en verificación: {}", e.getMessage()))
+                .doOnSuccess(v -> log.info("Verificación completada"))
+                .doOnError(e -> log.error("Error en verificación: {}", e.getMessage()))
                 .subscribe();
         notificarCarritosAbandonadosUseCase.changeStateToAbandoned()
                 .doOnSuccess(v->log.info("cambiar los etados de los carros que ya cumplieron 24h"))
