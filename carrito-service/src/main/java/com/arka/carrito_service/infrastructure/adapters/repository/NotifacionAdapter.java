@@ -1,5 +1,6 @@
 package com.arka.carrito_service.infrastructure.adapters.repository;
 
+import com.arka.carrito_service.domain.exception.UsuarioNoEncontradoException;
 import com.arka.carrito_service.domain.model.Carrito;
 import com.arka.carrito_service.domain.model.DetalleCarrito;
 import com.arka.carrito_service.domain.model.gateway.NotificacionGateway;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 
 public class NotifacionAdapter implements NotificacionGateway {
@@ -34,18 +36,20 @@ public class NotifacionAdapter implements NotificacionGateway {
     @Override
     public Mono<Void> sendNotiOfCarritoAbandonado(Carrito carrito) {
 
-        return Mono.fromCallable(() -> usuarioGateway.findById(carrito.getIdUsuario()).orElseThrow(() -> new RuntimeException("Usuario no encontrado")).getEmail())
+        return Mono.fromCallable(() -> usuarioGateway.findById(carrito.getIdUsuario()).orElseThrow(() -> new UsuarioNoEncontradoException("Usuario no encontrado")).getEmail()).subscribeOn(Schedulers.boundedElastic())
                 .flatMap(email -> Flux.fromIterable(carrito.getDetalles())
                         .flatMap(detalle -> Mono.fromCallable(() -> {
+                            log.info("se obtuvo el email");
                             String nombreProducto = productoGateway.findById(detalle.getIdProducto()).map(p -> p.getNombre()).orElse("Producto desconocido");
                             DetalleWeebhookDto dto = new DetalleWeebhookDto();
                             dto.setNombreProducto(nombreProducto);
                             dto.setCantidad(detalle.getCantidad());
                             dto.setSubtotal(detalle.getSubtotal());
                             return dto;
-                        }))
+                        }).subscribeOn(Schedulers.boundedElastic()))
                         .collectList()
                         .map(detalles -> {
+                            log.info("empieza a crear carrito abandonado dto");
                             Integer total = carrito.getDetalles().stream().mapToInt(DetalleCarrito::getSubtotal).sum();
                             CarritoAbandonadoDto dto = new CarritoAbandonadoDto();
                             dto.setUsuarioEmail(email);

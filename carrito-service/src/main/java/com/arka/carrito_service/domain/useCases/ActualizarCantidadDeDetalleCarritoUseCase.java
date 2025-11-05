@@ -14,13 +14,13 @@ import com.arka.carrito_service.domain.model.gateway.ProductoGateway;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-public class ActualizarCantidadDeDetalleCarrito {
+public class ActualizarCantidadDeDetalleCarritoUseCase {
 
     private final CarritoGateway carritoGateway;
     private final DetalleCarritoGateway detalleCarritoGateway;
     private final ProductoGateway productoGateway;
 
-    public ActualizarCantidadDeDetalleCarrito(CarritoGateway carritoGateway, DetalleCarritoGateway detalleCarritoGateway, ProductoGateway productoGateway) {
+    public ActualizarCantidadDeDetalleCarritoUseCase(CarritoGateway carritoGateway, DetalleCarritoGateway detalleCarritoGateway, ProductoGateway productoGateway) {
         this.carritoGateway = carritoGateway;
         this.detalleCarritoGateway = detalleCarritoGateway;
         this.productoGateway = productoGateway;

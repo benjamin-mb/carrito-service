@@ -30,7 +30,7 @@ public class NotificarCarritosAbandonadosUseCase {
         return carritoGateway.findCarritosAbandonados(date)
                 .flatMap(carrito -> {
                     carrito.setEstado(Estado.abandonado);
-                    return carritoGateway.save(carrito);
+                    return (carritoGateway.save(carrito));
                 }).then();
     }
 

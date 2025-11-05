@@ -19,10 +19,10 @@ public class SchedulerCarritoAbandonado {
     }
 
 
-    @Scheduled(fixedDelay = 3600000)
+    @Scheduled(fixedDelay = 120000)
     public void verificarCarritosAbandonados() {
         log.info("⏰ Iniciando verificación de carritos abandonados...");
-
+        System.out.println("empezamos");
         notificarCarritosAbandonadosUseCase.notifyUsersAboutAbandonedCar()
                 .doOnSuccess(v -> log.info("Verificación completada"))
                 .doOnError(e -> log.error("Error en verificación: {}", e.getMessage()))

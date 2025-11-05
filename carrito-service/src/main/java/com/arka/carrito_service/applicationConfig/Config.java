@@ -58,10 +58,10 @@ public class Config {
         }
 
         @Bean
-        public ActualizarCantidadDeDetalleCarrito actualizarCantidadDeDetalleCarrito(CarritoGateway carritoGateway,
-                                                                                     DetalleCarritoGateway detalleCarritoGateway,
-                                                                                     ProductoGateway productoGateway){
-                return new ActualizarCantidadDeDetalleCarrito(carritoGateway,detalleCarritoGateway,productoGateway);
+        public ActualizarCantidadDeDetalleCarritoUseCase actualizarCantidadDeDetalleCarrito(CarritoGateway carritoGateway,
+                                                                                            DetalleCarritoGateway detalleCarritoGateway,
+                                                                                            ProductoGateway productoGateway){
+                return new ActualizarCantidadDeDetalleCarritoUseCase(carritoGateway,detalleCarritoGateway,productoGateway);
         }
 
         @Bean

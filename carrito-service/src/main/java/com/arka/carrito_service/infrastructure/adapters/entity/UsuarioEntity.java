@@ -3,7 +3,9 @@ package com.arka.carrito_service.infrastructure.adapters.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "usuarios")

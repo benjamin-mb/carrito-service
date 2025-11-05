@@ -13,14 +13,14 @@ import reactor.core.publisher.Mono;
 @RequestMapping("api/carrito")
 public class CarritoController {
 
-    private final ActualizarCantidadDeDetalleCarrito actualizarCantidadDeDetalleCarrito;
+    private final ActualizarCantidadDeDetalleCarritoUseCase actualizarCantidadDeDetalleCarritoUseCase;
     private final AgregarProductoAlCarritoUseCase agregarProductoAlCarritoUseCase;
     private final EliminarDetalleUseCase eliminarDetalleUseCase;
     private final FinalizarCarritoUseCase finalizarCarritoUseCase;
     private final ObtenerCarritoUseCase obtenerCarritoUseCase;
 
-    public CarritoController(ActualizarCantidadDeDetalleCarrito actualizarCantidadDeDetalleCarrito, AgregarProductoAlCarritoUseCase agregarProductoAlCarritoUseCase, EliminarDetalleUseCase eliminarDetalleUseCase, FinalizarCarritoUseCase finalizarCarritoUseCase, ObtenerCarritoUseCase obtenerCarritoUseCase) {
-        this.actualizarCantidadDeDetalleCarrito = actualizarCantidadDeDetalleCarrito;
+    public CarritoController(ActualizarCantidadDeDetalleCarritoUseCase actualizarCantidadDeDetalleCarritoUseCase, AgregarProductoAlCarritoUseCase agregarProductoAlCarritoUseCase, EliminarDetalleUseCase eliminarDetalleUseCase, FinalizarCarritoUseCase finalizarCarritoUseCase, ObtenerCarritoUseCase obtenerCarritoUseCase) {
+        this.actualizarCantidadDeDetalleCarritoUseCase = actualizarCantidadDeDetalleCarritoUseCase;
         this.agregarProductoAlCarritoUseCase = agregarProductoAlCarritoUseCase;
         this.eliminarDetalleUseCase = eliminarDetalleUseCase;
         this.finalizarCarritoUseCase = finalizarCarritoUseCase;
@@ -47,7 +47,7 @@ public class CarritoController {
     public Mono<ResponseEntity<Carrito>> actualizarDetalle(
             @PathVariable Integer idDetalle,
             @PathVariable Integer cantidad) {
-        return actualizarCantidadDeDetalleCarrito.execute(idDetalle, cantidad)
+        return actualizarCantidadDeDetalleCarritoUseCase.execute(idDetalle, cantidad)
                 .map(ResponseEntity::ok);
     }
 
