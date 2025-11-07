@@ -37,7 +37,7 @@ public class FinalizarCarritoUseCase {
         }
 
         if (carrito.getDetalles() == null || carrito.getDetalles().isEmpty()) {
-           return Mono.just(new CarritoVacioException("Car is empty"));
+           return Mono.error(new CarritoVacioException("Car is empty"));
         }
         carrito.setEstado(Estado.finalizado);
         return carritoGateway.save(carrito)

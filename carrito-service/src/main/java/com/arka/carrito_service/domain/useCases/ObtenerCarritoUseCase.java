@@ -3,6 +3,7 @@ package com.arka.carrito_service.domain.useCases;
 import com.arka.carrito_service.domain.Dto.DtoCarrito;
 import com.arka.carrito_service.domain.Mapper.Mapper;
 import com.arka.carrito_service.domain.model.gateway.CarritoGateway;
+import com.arka.carrito_service.infrastructure.adapters.exceptions.CarritoNoEncontradoException;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -22,7 +23,7 @@ public class ObtenerCarritoUseCase {
                 .flatMap(carrito -> {
                     if (carrito.getExpirado().isBefore(LocalDateTime.now())){return
                     gateway.deleteById(carrito.getIdCarrito())
-                            .then(Mono.empty());
+                            .then(Mono.error(new CarritoNoEncontradoException("there are no active cars")));
                     }
                     DtoCarrito dtoCarrito=mapper.carritoToDto(carrito);
                     return Mono.just(dtoCarrito);

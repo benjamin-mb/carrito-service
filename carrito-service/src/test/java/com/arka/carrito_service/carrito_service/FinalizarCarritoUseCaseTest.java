@@ -1,6 +1,7 @@
 package com.arka.carrito_service.carrito_service;
 
 import com.arka.carrito_service.domain.exception.CarritoExpiradoException;
+import com.arka.carrito_service.domain.exception.CarritoVacioException;
 import com.arka.carrito_service.domain.model.Carrito;
 import com.arka.carrito_service.domain.model.DetalleCarrito;
 import com.arka.carrito_service.domain.model.Estado;
@@ -20,6 +21,8 @@ import reactor.test.StepVerifier;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -127,5 +130,48 @@ public class FinalizarCarritoUseCaseTest {
     @DisplayName("LN03 - Error con carrito expirado")
     void errorCarritoExpirado(){
 
+        LocalDateTime fecha=LocalDateTime.now().minusHours(1);
+        carritoAbierto = new Carrito(
+                1,
+                idUsuario,
+                LocalDateTime.now(),
+                Estado.abierto,
+                fecha,
+                Arrays.asList(detalle1, detalle2)
+        );
+
+        when(carritoGateway.findCarritoActivoByIdUsuario(carritoAbierto.getIdUsuario())).thenReturn(Mono.just(carritoAbierto));
+        StepVerifier.create(
+                finalizarCarritoUseCase.execute(carritoAbierto.getIdUsuario())
+        ).expectErrorMatches(error-> error instanceof CarritoExpiradoException &&
+                error.getMessage().contains( "Car is expired")
+        ).verify();
+
+        verify(eventPublisherGateway,never()).publishReduceStock(any(Carrito.class));
+        verify(eventPublisherGateway,never()).publishOrderConfirmed(any(Carrito.class));
+
+    }
+
+    @Test
+    @DisplayName("LN04 - Error con carrito vacio")
+    void errorCarritoVacio(){
+
+        carritoAbierto = new Carrito(
+                1,
+                idUsuario,
+                LocalDateTime.now(),
+                Estado.abierto,
+                LocalDateTime.now().plusHours(24),
+                Collections.emptyList()
+        );
+
+        when(carritoGateway.findCarritoActivoByIdUsuario(carritoAbierto.getIdUsuario())).thenReturn(Mono.just(carritoAbierto));
+        StepVerifier.create(finalizarCarritoUseCase.execute(carritoAbierto.getIdUsuario())).expectErrorMatches(
+                error->error instanceof CarritoVacioException &&
+                        error.getMessage().contains("Car is empty")
+        ).verify();
+
+        verify(eventPublisherGateway,never()).publishReduceStock(any(Carrito.class));
+        verify(eventPublisherGateway,never()).publishOrderConfirmed(any(Carrito.class));
     }
 }
