@@ -30,4 +30,4 @@ logging:
 
 notificacion:
   webhook:
-    url: https://enyoitrabajo.app.n8n.cloud/webhook/44e87a4a-2b6b-4f81-84ef-1c336eb39ced
+    url: ${WEBHOOK_URL}
