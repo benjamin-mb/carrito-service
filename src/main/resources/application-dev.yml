@@ -3,11 +3,6 @@ notificacion:
     url: https://n8nworkflows1.app.n8n.cloud/webhook-test/44e87a4a-2b6b-4f81-84ef-1c336eb39ced
 
 spring:
-  config:
-    import: optional:configserver:http://localhost:8888
-  profiles:
-    active: dev
-
   rabbitmq:
     host: localhost
     port: 5672
