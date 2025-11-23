@@ -1,6 +1,7 @@
 package com.arka.carrito_service.infrastructure.exceptions;
 
 import com.arka.carrito_service.domain.exception.*;
+import com.arka.carrito_service.infrastructure.adapters.exceptions.CarritoNoEncontradoException;
 import com.arka.carrito_service.infrastructure.exceptions.dto.ErrorResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,8 @@ public class GlobalExceptionHandler {
             DetalleCarritoNoEncontradoException.class,
             ProductNotFoundException.class,
             StockInsuficienteException.class,
-            UsuarioNoEncontradoException.class
+            UsuarioNoEncontradoException.class,
+            CarritoNoEncontradoException.class
     })
     public Mono<ResponseEntity<ErrorResponseDto>> handleNotFound(RuntimeException ex) {
         log.error("NOT FOUND: ", ex.getMessage());
@@ -52,6 +54,7 @@ public class GlobalExceptionHandler {
                 status.value(),
                 message,
                 LocalDateTime.now()
+
         );
         return Mono.just(ResponseEntity.status(status).body(error));
     }

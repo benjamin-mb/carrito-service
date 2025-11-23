@@ -19,7 +19,7 @@ public class SchedulerCarritoAbandonado {
     }
 
 
-    @Scheduled(fixedDelay = 120000)
+    @Scheduled(fixedDelay = 3600000)
     public void verificarCarritosAbandonados() {
         log.info("⏰ Iniciando verificación de carritos abandonados...");
         System.out.println("empezamos");

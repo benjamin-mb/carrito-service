@@ -30,8 +30,8 @@ public class CarritoController {
     @GetMapping("/{idUsuario}")
     public Mono<ResponseEntity<DtoCarrito>> obtenerCarrito(@PathVariable Integer idUsuario) {
         return obtenerCarritoUseCase.getCarrito(idUsuario)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+                .map(ResponseEntity::ok);
+
     }
 
     @PostMapping("/agregar")

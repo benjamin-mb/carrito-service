@@ -20,6 +20,7 @@ public class ObtenerCarritoUseCase {
 
     public Mono<DtoCarrito> getCarrito(Integer idUsuario){
         return gateway.findCarritoActivoByIdUsuario(idUsuario)
+                .switchIfEmpty(Mono.error(new CarritoNoEncontradoException("No active cart found for user: " + idUsuario)))
                 .flatMap(carrito -> {
                     if (carrito.getExpirado().isBefore(LocalDateTime.now())){return
                     gateway.deleteById(carrito.getIdCarrito())
